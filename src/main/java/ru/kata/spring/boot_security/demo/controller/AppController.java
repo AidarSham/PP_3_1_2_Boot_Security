@@ -22,17 +22,23 @@ public class AppController {
     }
 
     @GetMapping("/user")
-    public String user(Model model, Principal principal) {
+    public String userPage(Model model, Principal principal) {
         model.addAttribute("user", userService.getUserByUsername(principal.getName()));
         return "user";
     }
 
     @GetMapping("/admin")
+    public String adminPage(Model model, Principal principal) {
+        model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
+        return "admin";
+    }
+
+    @GetMapping("/index")
     public String viewHomePage(Model model) {
         List<User> users = userService.listAll();
         model.addAttribute("users", users);
 
-        return "admin";
+        return "index";
     }
 
     @GetMapping("/new")
@@ -47,7 +53,7 @@ public class AppController {
     public String saveUser(@ModelAttribute("user") User user) {
         userService.save(user);
 
-        return "redirect:/admin";
+        return "redirect:/index";
     }
 
     @RequestMapping("/edit/{id}")
@@ -62,7 +68,7 @@ public class AppController {
     @RequestMapping("/delete/{id}")
     public String deleteUser(@PathVariable(name = "id")Long id){
         userService.delete(id);
-        return "redirect:/admin";
+        return "redirect:/index";
     }
 
     @GetMapping("/403")

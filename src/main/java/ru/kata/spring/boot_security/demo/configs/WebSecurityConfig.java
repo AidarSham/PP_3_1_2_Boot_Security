@@ -50,12 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("USER")
-                .antMatchers("/").hasAnyAuthority("USER","ADMIN")
-                .antMatchers("/new/**").hasRole("ADMIN")
-                .antMatchers("/edit/**").hasRole("ADMIN")
-                .antMatchers("/delete/**").hasRole("ADMIN")
+                .antMatchers("/admin/**", "/index/**", "/new/**", "/edit/**", "/delete/**").hasRole("ADMIN")
+                .antMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
@@ -63,6 +59,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().permitAll()
                 .and()
-                .exceptionHandling().accessDeniedPage("/403");;
+                .exceptionHandling().accessDeniedPage("/403");
     }
 }
